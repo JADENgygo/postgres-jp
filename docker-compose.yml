@@ -1,20 +1,20 @@
 services:
-    postgres:
-        build: .
-        image: postgres-jp:17
-        restart: always
-        environment:
-            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-        volumes:
-            - "postgres:/var/lib/postgresql/data"
-        ports:
-          - "127.0.0.1:5432:5432"
-        logging:
-            driver: "json-file"
-            options:
-                max-size: "200k"
-                max-file: "10"
+  postgres:
+    build: .
+    image: postgres-jp:17
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 127.0.0.1:5432:5432
+    logging:
+      driver: json-file
+      options:
+        max-size: 200k
+        max-file: 10
 
 volumes:
-    postgres:
-        name: postgres
+  postgres:
+    name: postgres
