@@ -1,13 +1,11 @@
 services:
   postgres:
+    container_name: postgres-jp
     build: .
     image: postgres-jp:17
     restart: always
     user: postgres
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    env_file: .env
     volumes:
       - postgres:/var/lib/postgresql/data
       - ./init0.sql:/docker-entrypoint-initdb.d/init0.sql
