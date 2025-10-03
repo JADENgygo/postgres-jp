@@ -4,14 +4,21 @@ services:
     build: .
     image: postgres-jp:17
     restart: always
-    user: postgres
-    env_file: .env
     volumes:
       - postgres:/var/lib/postgresql/data
       - ./init0.sql:/docker-entrypoint-initdb.d/init0.sql
       - ./init1.sh:/docker-entrypoint-initdb.d/init1.sh
     ports:
       - 127.0.0.1:5432:5432
+    environment:
+      POSTGRES_USER_FILE: /run/secrets/postgres_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      POSTGRES_DB_FILE: /run/secrets/postgres_db
+      POSTGRES_INITDB_ARGS: "--locale-provider=icu --icu-locale=ja-x-icu"
+    secrets:
+      - postgres_user
+      - postgres_password
+      - postgres_db
     logging:
       driver: json-file
       options:
@@ -21,3 +28,11 @@ services:
 volumes:
   postgres:
     name: postgres
+
+secrets:
+  postgres_user:
+    file: .secrets/postgres_user.txt
+  postgres_password:
+    file: .secrets/postgres_password.txt
+  postgres_db:
+    file: .secrets/postgres_db.txt
